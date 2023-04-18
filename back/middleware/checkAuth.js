@@ -3,6 +3,22 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
+/**
+ * This function checks if a valid Bearer token exists in the request headers and decodes it to
+ * retrieve user information from the database.
+ * @param req - req stands for request and it is an object that contains information about the HTTP
+ * request that was made, such as the request headers, request parameters, request body, etc.
+ * @param res - `res` is the response object that is used to send a response back to the client making
+ * the request. It contains methods such as `res.send()`, `res.json()`, `res.status()`, etc. that are
+ * used to send the response data and set the response status code.
+ * @param next - next is a function that is called to pass control to the next middleware function in
+ * the stack. It is typically used to move to the next middleware function when the current middleware
+ * function has completed its task.
+ * @returns If the token is valid and the user is found in the database, the function returns `next()`,
+ * which means it passes control to the next middleware function. If there is an error decoding the
+ * token or finding the user in the database, it returns a 404 error response. If there is no token, it
+ * returns a 401 error response. If none of the above conditions are met, it
+ */
 const checkAuth = async (req, res, next) => {
   let token;
   // valida si existe un token   && verifica si es un token Bearer
@@ -23,7 +39,7 @@ const checkAuth = async (req, res, next) => {
 
   if (!token) {
     const error = new Error("Token no valido");
-    res.status(401).json({ msg: error.message });
+    return res.status(401).json({ msg: error.message });
   }
   next();
 };
