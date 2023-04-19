@@ -1,4 +1,5 @@
 import Project from "../models/Project.js";
+import Task from "../models/Tasks.js";
 
 /**
  * This function creates a new project instance with data from the request body and saves it to the
@@ -68,7 +69,10 @@ const getProject = async (req, res) => {
       return res.status(401).json({ msg: error.message });
     }
 
-    return res.json({ project });
+    //consultar las tareas del proyecto
+    const tasks = await Task.find().where("project").equals(idProject);
+
+    return res.json({ project, tasks });
   } catch (e) {
     const error = new Error("Este Proyecto no existe");
     return res.status(404).json({ msg: error.message });
@@ -152,12 +156,10 @@ const deleteProject = async (req, res) => {
 
 const addPartner = async (req, res) => {};
 const deletePartner = async (req, res) => {};
-const getTasks = async (req, res) => {};
 
 export {
   getProject,
   getProjects,
-  getTasks,
   addPartner,
   newProject,
   editProject,

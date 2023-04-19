@@ -3,7 +3,6 @@ import {
   getProjects,
   newProject,
   getProject,
-  getTasks,
   addPartner,
   editProject,
   deletePartner,
@@ -22,7 +21,6 @@ router
   .put(checkAuth, editProject)
   .delete(checkAuth, deleteProject);
 
-router.get("/tasks/:idProject", checkAuth, getTasks);
 router.post("/add-partner", checkAuth, addPartner);
 router.post("/delete-partner", checkAuth, deletePartner);
 
