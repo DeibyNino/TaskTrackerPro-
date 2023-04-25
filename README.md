@@ -21,3 +21,5 @@ Tecnologias utilizadas:
 Stack MERN 
  - bcrypt
  - jwt
+ - documentacion creada con postman 
+ - url documentacion https://documenter.getpostman.com/view/5723122/2s93Y6tKLy
