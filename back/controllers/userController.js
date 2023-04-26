@@ -9,7 +9,7 @@ const createUser = async (req, res) => {
   const exist = await User.findOne({ email }); // el metodo findOne busca en la DB si existe el elemento que se pasa como argumento
 
   if (exist) {
-    const error = new Error(`El usuario ${exist.email} ya ha sido creado`); //seteo un nuevo error
+    const error = new Error(`El usuario ${exist.email} ya existe`); //seteo un nuevo error
     return res.status(400).json({ msg: error.message }); // envio como repsuesta el mensaje setado
   }
 
@@ -18,8 +18,7 @@ const createUser = async (req, res) => {
     addUser.token = generateID(); // genera ID aleatorio para el token de verificacion- funcion creada como un helper
     const saveUser = await addUser.save(); // guarda el nuevo usuario en la base de datos
     res.json({
-      status: 200,
-      msg: "Usuario Creado Satisfactoriamente",
+      msg: "Usuario Creado satisfactoriamente, revisa tu email para verificar tu cuenta",
       user: saveUser,
     });
   } catch (error) {

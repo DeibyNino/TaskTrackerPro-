@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import cors from "cors";
 
 // declaracion del servidor
 const app = express();
@@ -14,6 +15,24 @@ app.use(express.json());
 dotenv.config();
 //se realiza la conexion con la base de datos
 connectDB();
+
+//configuracion de cors
+//whitelist
+const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND2_URL];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.includes(origin)) {
+      //puede ingresar
+      callback(null, true); // se autoriza el acceso con el true
+    } else {
+      // no piedes ingresar
+      callback(new Error("Error de cors"));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 //Routing
 app.use("/api/users", userRoutes);
