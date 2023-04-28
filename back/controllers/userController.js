@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import generateID from "../helpers/generateID.js";
 import generateJWT from "../helpers/generateJWT.js";
+import { emailRegister } from "../helpers/email.js";
 
 const createUser = async (req, res) => {
   // evitar registros duplicados
@@ -17,6 +18,13 @@ const createUser = async (req, res) => {
     const addUser = new User(req.body); //crea un nuevo usuario con la informacion del modelo
     addUser.token = generateID(); // genera ID aleatorio para el token de verificacion- funcion creada como un helper
     const saveUser = await addUser.save(); // guarda el nuevo usuario en la base de datos
+
+    //enviamos email de confirmacion
+    emailRegister({
+      email: saveUser.email,
+      name: saveUser.name,
+      token: saveUser.token,
+    });
     res.json({
       msg: "Usuario Creado satisfactoriamente, revisa tu email para verificar tu cuenta",
       user: saveUser,
@@ -60,8 +68,10 @@ const auth = async (req, res) => {
 
 //Controller para la confirmacion de un usuario
 const confirmation = async (req, res) => {
-  const { token } = req.params; // destructuramos el token de los parametros de la url
+  const { token } = req.body; // destructuramos el token de los parametros de la url
   //verificar si el usuario existe
+  console.log(token);
+  console.log(req.body);
   const userConfirmation = await User.findOne({ token });
   if (!userConfirmation) {
     const error = new Error("Token no valido");

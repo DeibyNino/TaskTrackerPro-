@@ -18,18 +18,27 @@ connectDB();
 
 //configuracion de cors
 //whitelist
-const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND2_URL];
+const whitelist = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND2_URL,
+  process.env.POSTMAN_URL,
+];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.includes(origin)) {
-      //puede ingresar
-      callback(null, true); // se autoriza el acceso con el true
-    } else {
-      // no piedes ingresar
-      callback(new Error("Error de cors"));
-    }
-  },
+  //TODO: habilitar la limitacion de cors
+  //validacion de cors especificos
+  // origin: function (origin, callback) {
+  //   console.log(origin);
+  //   if (whitelist.includes(origin)) {
+  //     //puede ingresarRS
+  //     callback(null, true); // se autoriza el acceso con el true
+  //   } else {
+  //     // no piedes ingresar
+  //     callback(new Error("Error de cors"));
+  //   }
+  // },
+  //TODO: deshabilitar todos los origenes
+  origin: "*", // permite la peticion de todas las url
 };
 
 app.use(cors(corsOptions));

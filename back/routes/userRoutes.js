@@ -17,7 +17,7 @@ router.post("/", createUser); //Crea un nuevo usario
 
 router.post("/login", auth); // Login de un Usuario
 
-router.get("/confirmation/:token", confirmation); // Confirmacion de la cuenta mediente el token
+router.post("/confirmation", confirmation); // Confirmacion de la cuenta mediente el token
 router.post("/rescuepassword", rescuePassword); // REcuperar password
 router.get("/rescuepassword/:token", verifiedToken); // comprueba token para Definir nuevo  password
 router.post("/rescuepassword/:token", newPassword); // comprueba token para Definir nuevo  password

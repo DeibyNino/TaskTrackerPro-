@@ -13,5 +13,17 @@ export const postData = async (endpoint, data) => {
   }
 };
 //get
+export const getData = async (endpoint, data) => {
+  console.log(endpoint);
+  console.log(data);
+  try {
+    const resp = await axios.get(url + endpoint, data);
+    console.log(resp);
+    return resp;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response;
+  }
+};
 //put
 //delete
