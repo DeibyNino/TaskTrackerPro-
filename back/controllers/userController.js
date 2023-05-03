@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import generateID from "../helpers/generateID.js";
 import generateJWT from "../helpers/generateJWT.js";
-import { emailRegister } from "../helpers/email.js";
+import { emailRegister, emailRescuePassword } from "../helpers/email.js";
 
 const createUser = async (req, res) => {
   // evitar registros duplicados
@@ -101,6 +101,11 @@ const rescuePassword = async (req, res) => {
   try {
     user.token = generateID(); //genera un nuevo token y lo asigna a user
     await user.save(); // guarda el nuevo token en la DB
+    emailRescuePassword({
+      email: user.email,
+      name: user.name,
+      token: user.token,
+    });
     res.json({ msg: "Revisa tu email para cambiar tu password" });
   } catch (error) {
     console.log(error);

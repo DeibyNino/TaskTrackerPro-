@@ -31,7 +31,10 @@ const ConfirmAccount = () => {
 
   return (
     <>
-      <h1 className="text-sky-600 font-black text-6xl capitalize">
+      <h1
+        className="text-sky-600 font-black text-4xl text-center
+       capitalize"
+      >
         Confirma tu cuenta y empieza a gestionar tus{" "}
         <span className="text-slate-700">proyectos</span>
       </h1>

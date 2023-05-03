@@ -1,14 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import Alerts from "../components/Alerts";
+import { postData } from "../api/interceptor";
 const ResetPassword = () => {
+  const [email, setEmail] = useState("");
+  const [alert, setAlert] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email === "" || email.length < 6) {
+      setAlert({
+        msg: "Requiere email",
+        error: true,
+      });
+      return;
+    }
+    const sendEmail = await postData("users/rescuepassword", { email });
+    console.log(sendEmail);
+    if (sendEmail.status === 404) {
+      setAlert({
+        msg: sendEmail.data.msg,
+        error: true,
+      });
+    }
+    if (sendEmail.status === 200) {
+      setAlert({
+        msg: sendEmail.data.msg,
+        error: false,
+      });
+    }
+  };
+
+  const { msg } = alert;
   return (
     <>
-      <h1 className="text-sky-600 font-black text-6xl capitalize">
+      <h1 className="text-sky-600 font-black text-4xl text-center capitalize">
         Recupera tu acceso y no pierdas tus{" "}
         <span className="text-slate-700">proyectos</span>
       </h1>
-      <form className="my-10 bg-white shadow rounded-lg p-10 ">
+      {msg && <Alerts alert={alert} />}
+      <form
+        className="my-10 bg-white shadow rounded-lg p-10 "
+        onSubmit={handleSubmit}
+      >
         <div className="my-5">
           <label
             className="uppercase text-gray-600 block text-xl font-bold"
@@ -21,6 +55,7 @@ const ResetPassword = () => {
             placeholder="Email de registro"
             className="w-full mt-3 p-3 bolder rounded-xl bg-gray-50"
             id="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
