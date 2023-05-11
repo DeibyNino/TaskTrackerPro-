@@ -6,21 +6,29 @@ import SignUp from "./pages/SignUp";
 import ResetPassword from "./pages/ResetPassword";
 import NewPassword from "./pages/NewPassword";
 import ConfirmAccount from "./pages/ConfirmAccount";
+import { AuthProvider } from "./context/AuthProvider";
+import PrivateRoute from "./layouts/PrivateRoute";
+import Projects from "./pages/Projects";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Area Publica de la app */}
-        <Route path="/" element={<AuthLayaout />}>
-          <Route index element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="reset-password/:token" element={<NewPassword />} />
-          <Route path="confirm-account/:id" element={<ConfirmAccount />} />
-        </Route>
-        {/* Area Privada de la App */}
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          {/* Area Publica de la app */}
+          <Route path="/" element={<AuthLayaout />}>
+            <Route index element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="reset-password/:token" element={<NewPassword />} />
+            <Route path="confirm-account/:id" element={<ConfirmAccount />} />
+          </Route>
+          {/* Area Privada de la App */}
+          <Route path="/projects" element={<PrivateRoute />}>
+            <Route index element={<Projects />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

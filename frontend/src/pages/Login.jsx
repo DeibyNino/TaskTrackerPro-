@@ -3,11 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Alerts from "../components/Alerts";
 import { postData } from "../api/interceptor";
 import { RotateSpinner } from "react-spinners-kit";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [user, setUser] = useState({});
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const { setAuth } = useAuth();
+
   const handleUser = (e) => {
     setUser({
       ...user,
@@ -32,6 +36,8 @@ const Login = () => {
     console.log(login);
 
     if (login.status === 200) {
+      setAuth(login.data);
+      localStorage.setItem("token", login.data.token);
       setAlert({
         msg: "",
         error: false,

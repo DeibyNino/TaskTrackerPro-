@@ -20,6 +20,7 @@ import User from "../models/User.js";
  * returns a 401 error response. If none of the above conditions are met, it
  */
 const checkAuth = async (req, res, next) => {
+  console.log(req.headers);
   let token;
   // valida si existe un token   && verifica si es un token Bearer
   if (
